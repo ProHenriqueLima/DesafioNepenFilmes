@@ -7,5 +7,6 @@ namespace FilmeNepenApi.Data
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
         public DbSet<Filme> Filmes { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
     }
 }

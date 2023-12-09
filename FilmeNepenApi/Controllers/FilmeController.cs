@@ -1,6 +1,7 @@
 using FilmeNepenApi.Models;
 using FilmeNepenApi.Repositories;
 using FilmeNepenApi.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FilmeNepenApi.Controllers;
@@ -17,6 +18,7 @@ public class FilmeController : ControllerBase
         _servico = service;
     }
 
+    [Authorize(Roles = "admin,usuario")]
     [HttpGet(Name = "ListarTodosFilmes")]
     public Filme[] ListarTodosFilmes(string? pesquisa)
     {
@@ -24,10 +26,13 @@ public class FilmeController : ControllerBase
     }
     
     [HttpPost(Name = "AdicionarFilme")]
-    public void AdicionarFilme(Filme filme)
+    public IActionResult AdicionarFilme(Filme filme)
     {
-        _repo.Add(filme);
-        _repo.SaveChanges();
+        if(_servico.FilmeExistente(filme.Nome) == true)
+        {
+            return BadRequest("Já existe um filme com esse nome");
+        }
+        return Ok(_servico.AdicionarFilmes(filme));
 
     }
 
