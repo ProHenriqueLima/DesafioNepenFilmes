@@ -1,5 +1,6 @@
 using FilmeNepenApi.Models;
 using FilmeNepenApi.Repositories;
+using FilmeNepenApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FilmeNepenApi.Controllers;
@@ -9,15 +10,17 @@ namespace FilmeNepenApi.Controllers;
 public class FilmeController : ControllerBase
 {
     public readonly IRepository _repo;
-    public FilmeController(IRepository repo)
+    public readonly IFilmeService _servico;
+    public FilmeController(IRepository repo, IFilmeService service)
     {
         _repo = repo;
+        _servico = service;
     }
 
     [HttpGet(Name = "ListarTodosFilmes")]
-    public Filme[] ListarTodosFilmes()
+    public Filme[] ListarTodosFilmes(string? pesquisa)
     {
-        return _repo.GetAllFilmes();
+        return _servico.ListarFilmes(pesquisa);
     }
     
     [HttpPost(Name = "AdicionarFilme")]

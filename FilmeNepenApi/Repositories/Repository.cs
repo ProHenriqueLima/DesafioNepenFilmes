@@ -35,7 +35,7 @@ namespace FilmeNepenApi.Repositories
         {
             IQueryable<Filme> query = _context.Filmes;
 
-            query = query.AsNoTracking().OrderBy(u => u.Id);
+            query = query.AsNoTracking().OrderByDescending(u => u.Id);
             return query.ToArray();
         }
     }
