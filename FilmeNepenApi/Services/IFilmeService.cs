@@ -7,6 +7,8 @@ namespace FilmeNepenApi.Services
     {
         Filme AdicionarFilmes(Filme? filme);
         Filme[] ListarFilmes(string? pesquisa);
+        Filme AtualizarFilmes(int id, Filme filmeEditado);
         bool FilmeExistente(string nome);
+        bool FilmeExistenteId(int id);
     }
 }

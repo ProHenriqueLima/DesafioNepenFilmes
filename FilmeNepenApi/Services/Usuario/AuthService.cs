@@ -20,6 +20,7 @@ namespace FilmeNepenApi.Services
                 var password = sha256_hash(user.Password);
                 user.Password = password;
                 user.Cargo = user.Cargo;
+                user.Ativo = 1;
                 _context.Usuarios.Add(user);
                 await _context.SaveChangesAsync();
 

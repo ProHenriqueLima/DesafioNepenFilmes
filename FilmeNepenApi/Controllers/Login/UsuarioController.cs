@@ -44,46 +44,21 @@ namespace FilmeNepenApi.Controllers.Login
         }
 
         [HttpPost]
-        [Route("cadastrar")]
+        [Route("cadastrarUsuario")]
         [AllowAnonymous]
         public async Task<ActionResult<dynamic>> Cadastrar([FromBody] Usuario admin)
         {
-            Usuario adm = new Usuario();
-            if (admin.Username != null && admin.Password != null && admin.Nome != null)
+            if (_authService.GetUsuario(admin.Username) != null)
             {
-                if (admin.Password.Length < 5)
-                {
-                    return BadRequest(new { error = "A Senha precisa conter mais de 5 caracteres" });
-                }
-                if (admin.Username.Length < 3)
-                {
-                    return BadRequest(new { error = "O nome de usuário precisa conter mais de 3 caracteres" });
-                }
-                if (admin.Nome == "")
-                {
-                    return BadRequest(new { error = "O Nome não pode ser nulo" });
-                }
-                if (_authService.GetUsuario(admin.Username) != null)
-                {
-                    return BadRequest(new { error = "Nome de usuário já cadastrado" });
-                }
-                admin = await _authService.Cadastrar(admin);
+               return BadRequest(new { error = "Nome de usuário já cadastrado" });
             }
-            else
-            {
-                return BadRequest(new { error = "Dados para o cadastro inválidos !" });
-            }
-
-            if (admin == null)
-            {
-                return BadRequest(new { error = "Não foi possivel cadastrar o usuário" });
-            }
-
+            await _authService.Cadastrar(admin);
             return (new { message = "Usuário cadastrado com sucesso !" });
 
         }
+
         [HttpPut]
-        [Route("admin/editar")]
+        [Route("admin/editarUsuario")]
         [Authorize(Roles = "admin")]
         public async Task<ActionResult<dynamic>> EditarAdminAdm(int id, Usuario adminEditado)
         {
@@ -97,8 +72,9 @@ namespace FilmeNepenApi.Controllers.Login
 
             return (new { message = "Usuário editado com sucesso !" });
         }
+
         [HttpPut]
-        [Route("editar")]
+        [Route("editarUsuario")]
         [Authorize]
         public async Task<ActionResult<dynamic>> EditarAdmin(int id, Usuario adminEditado)
         {
@@ -113,7 +89,7 @@ namespace FilmeNepenApi.Controllers.Login
             return (new { message = "Usuário editado com sucesso !" });
         }
         [HttpDelete]
-        [Route("admin/deletar")]
+        [Route("admin/deletarUsuario")]
         [Authorize(Roles = "admin")]
         public async Task<ActionResult<dynamic>> DeleteAdminAdm(int id)
         {
@@ -126,21 +102,5 @@ namespace FilmeNepenApi.Controllers.Login
 
             return (new { message = "Usuário deletado com sucesso !" });
         }
-
-
-        [HttpGet]
-        [Route("autenticado")]
-        [Authorize]
-        public string Autenticado() => String.Format("Autenticado: {0}", User.Identity.Name);
-
-        [HttpGet]
-        [Route("anonimo")]
-        [AllowAnonymous]
-        public string Anonimo() => "Anônimo";
-
-        [HttpGet]
-        [Route("admin")]
-        [Authorize(Roles = "admin")]
-        public string Admin() => "Administrador";
     }
 }
