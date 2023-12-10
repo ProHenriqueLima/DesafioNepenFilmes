@@ -21,6 +21,16 @@ builder.Services.AddControllers().AddFluentValidation(config =>
 
 builder.Services.AddTransient<IAuthService, AuthService>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy",
+        builder => builder
+            .AllowAnyOrigin()        // Permite qualquer origem
+            .AllowAnyMethod()        // Permite qualquer método HTTP (GET, POST, PUT, DELETE, etc.)
+            .AllowAnyHeader()        // Permite qualquer cabeçalho HTTP
+        );
+});
+
 var key = Encoding.ASCII.GetBytes(Settings.Secret);
 builder.Services.AddAuthentication(x =>
 {
@@ -82,6 +92,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("CorsPolicy");
 
 app.UseAuthentication();
 app.UseAuthorization();

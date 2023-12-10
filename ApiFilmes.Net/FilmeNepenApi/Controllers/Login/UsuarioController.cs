@@ -102,5 +102,13 @@ namespace FilmeNepenApi.Controllers.Login
 
             return (new { message = "Usuário deletado com sucesso !" });
         }
+
+        [HttpGet]
+        [Route("autenticado")]
+        [Authorize]
+        public async Task<ActionResult<dynamic>> Autenticado()
+        {
+            return (new { message = "Autenticado" });
+        }
     }
 }

@@ -1,0 +1,56 @@
+<!-- Login -->
+<mat-card style="width: 450px; margin:50px auto 0 auto" *ngIf="cadastroOuLogin == 'Login'">
+    <mat-card-header style="margin: 10px 20px 20px 0">
+        <mat-card-title>Login</mat-card-title>
+        <mat-card-subtitle>Conecte seu usuário</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <div>
+            <mat-form-field appearance="fill" style="width: 100%;">
+                <mat-label>Username</mat-label>
+                <input matInput [(ngModel)]="this.Username" placeholder="Placeholder"  required>
+                <mat-icon matSuffix>account_circle</mat-icon>
+            </mat-form-field>
+            <mat-form-field appearance="fill" style="width: 100%;">
+                <mat-label>Senha</mat-label>
+                <input matInput [(ngModel)]="this.Senha" placeholder="Placeholder" [type]="hidePassword ? 'password' : 'text'">
+            </mat-form-field>
+        </div>
+    </mat-card-content>
+    <mat-card-actions>
+        <span class="spacer"></span>
+        <button mat-button (click)="efetuarLogin()">Entrar</button>
+        <button mat-button (click)="cadastroOuLogin = 'Cadastro'">Cadastra-se</button>
+    </mat-card-actions>
+</mat-card>
+
+
+<!-- Cadastro -->
+<mat-card style="width: 450px; margin:50px auto 0 auto" *ngIf="cadastroOuLogin == 'Cadastro'">
+    <mat-card-header style="margin: 10px 20px 20px 0">
+        <mat-card-title>Login</mat-card-title>
+        <mat-card-subtitle>Conecte seu usuário</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <div>
+            <mat-form-field appearance="fill" style="width: 100%;">
+                <mat-label>Username</mat-label>
+                <input matInput [(ngModel)]="this.Username" placeholder="Placeholder"  required>
+                <mat-icon matSuffix>account_circle</mat-icon>
+            </mat-form-field>
+            <mat-form-field appearance="fill" style="width: 100%;">
+                <mat-label>Nome</mat-label>
+                <input matInput [(ngModel)]="this.Nome" placeholder="Placeholder"  required>
+            </mat-form-field>
+            <mat-form-field appearance="fill" style="width: 100%;">
+                <mat-label>Senha</mat-label>
+                <input matInput [(ngModel)]="this.Senha" placeholder="Placeholder" [type]="hidePassword ? 'password' : 'text'">
+            </mat-form-field>
+        </div>
+    </mat-card-content>
+    <mat-card-actions>
+        <button style="font-size: small;" mat-button (click)="cadastroOuLogin = 'Login'">Conta existente? entrar</button>
+        <span class="spacer"></span>
+        <button mat-button (click)="efetuarCadastro()">Registrar</button>
+    </mat-card-actions>
+</mat-card>
