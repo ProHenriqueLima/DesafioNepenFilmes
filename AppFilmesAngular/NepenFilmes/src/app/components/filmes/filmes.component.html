@@ -22,10 +22,16 @@
     <span class="spacer"></span>
 
     <div class="filme-list">
+        
         <div  class="filme-list" style="cursor: pointer;" *ngFor="let item of FilmesMaisRentaveis;let i = index"  (click)="visualizarFilme(item,'IMDB')">
         <div class="filme-item" *ngIf="i < 5">
+            <div style="margin-top: 3px;">
+                <span class="spacer"></span>
+                <span style="display: flex; font-size: 18px;color: white;margin-right: 5px;"><span class="spacer"></span><mat-icon matSuffix style="Color:rgb(231, 231, 0);font-size: 18px;">star</mat-icon>{{item.vote_average.toFixed(1)}}</span>
+            </div>
             <img *ngIf="i < 5"src="https://image.tmdb.org/t/p/w500/{{item.poster_path}}" alt="texto"/>
             <h4 *ngIf="i < 5" style="color: white;">{{item.title}}</h4>
+            
         </div>
     </div>
 </div>

@@ -4,11 +4,12 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { VisualizarFilmeComponent } from './visualizar-filme/visualizar-filme.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-filmes',
   standalone: true,
-  imports: [MatGridListModule,CommonModule,MatButtonModule,VisualizarFilmeComponent],
+  imports: [MatGridListModule,MatIconModule,CommonModule,MatButtonModule,VisualizarFilmeComponent],
   templateUrl: './filmes.component.html',
   styleUrl: './filmes.component.css',
   providers: [TmdbService]
