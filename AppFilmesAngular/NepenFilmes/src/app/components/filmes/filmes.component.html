@@ -1,25 +1,32 @@
-<h2 style="margin-left:50px;margin-top: 40px;color:rgb(252, 59, 59);font-family:  Verdana;">Sua biblioteca</h2>
+<!-- Visualizar único filme -->
+<div *ngIf="VisualizarFilme">
+    <div style="background-color: black;">sddd</div>
+    <app-visualizar-filme (visualizarUnico)="voltarHome()" [Filme]="FilmeSelecionado" [Tipo]="TipoFilmeSelecionado"></app-visualizar-filme>
+</div>
+<div *ngIf="!VisualizarFilme">
+    <h2 style="margin-left:50px;margin-top: 40px;color:rgb(252, 59, 59);font-family:  Verdana;">Sua biblioteca</h2>
 
-<div class="filme-list">
-    <div  class="filme-list" *ngFor="let itens of MinhaBibliotecaDeFilme;let i = index">
-        <div class="filme-item" *ngIf="i < 5">
-            <img *ngIf="i < 5"src="https://image.tmdb.org/t/p/w500/{{itens.poster_path}}" alt="texto"/>
-            <h4 *ngIf="i < 5" style="color: white;">{{itens.title}}</h4>
+    <div class="filme-list">
+        <div  class="filme-list" *ngFor="let item of MinhaBibliotecaDeFilme;let i = index" (click)="visualizarFilme(item,'biblioteca')">
+            <div class="filme-item" *ngIf="i < 5">
+                <img *ngIf="i < 5"src="https://image.tmdb.org/t/p/w500/{{item.poster_path}}" alt="texto"/>
+                <h4 *ngIf="i < 5" style="color: white;">{{item.title}}</h4>
+            </div>
         </div>
     </div>
-</div>
-<div class="bibliotecaVazia">
-    <button mat-button >Adicionar<br/>mais<br/>Filmes</button>
-</div>
+    <div class="bibliotecaVazia">
+        <button mat-button >Adicionar<br/>mais<br/>Filmes</button>
+    </div>
 
-<h2 style="margin-left:50px;margin-top: 40px;color:rgb(252, 59, 59);font-family:  Verdana;">Os 5 Filmes mais votados da web (IMDB)</h2>
-<span class="spacer"></span>
+    <h2 style="margin-left:50px;margin-top: 40px;color:rgb(252, 59, 59);font-family:  Verdana;">Os 5 Filmes mais votados da web (IMDB)</h2>
+    <span class="spacer"></span>
 
-<div class="filme-list">
-    <div  class="filme-list" *ngFor="let itens of FilmesMaisRentaveis;let i = index">
-    <div class="filme-item" *ngIf="i < 5">
-        <img *ngIf="i < 5"src="https://image.tmdb.org/t/p/w500/{{itens.poster_path}}" alt="texto"/>
-        <h4 *ngIf="i < 5" style="color: white;">{{itens.title}}</h4>
+    <div class="filme-list">
+        <div  class="filme-list" style="cursor: pointer;" *ngFor="let item of FilmesMaisRentaveis;let i = index"  (click)="visualizarFilme(item,'IMDB')">
+        <div class="filme-item" *ngIf="i < 5">
+            <img *ngIf="i < 5"src="https://image.tmdb.org/t/p/w500/{{item.poster_path}}" alt="texto"/>
+            <h4 *ngIf="i < 5" style="color: white;">{{item.title}}</h4>
+        </div>
     </div>
 </div>
 
