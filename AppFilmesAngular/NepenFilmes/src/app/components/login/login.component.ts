@@ -9,16 +9,18 @@ import { LoginService } from '../../app.component.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
+  standalone:true,
   imports: [CommonModule,MatCardModule,MatButtonModule,MatFormFieldModule,MatInputModule,MatIconModule,HttpClientModule,FormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
   providers: [LoginService]
 })
 export class LoginComponent {
-  constructor(private loginService: LoginService,private _snackBar: MatSnackBar) {}
+  constructor(private loginService: LoginService,private _snackBar: MatSnackBar,private router: Router) {}
 
   @Output() inicializarApp = new EventEmitter();
   cadastroOuLogin = "Login";
@@ -94,18 +96,31 @@ export class LoginComponent {
         (res) => {
           // Lógica de sucesso no cadastro
           console.log(res);
-          if (res.token != null && res.token != "") {
+          if (res.message == 'Usuário cadastrado com sucesso !') {
             // Exibição de uma notificação de sucesso
             this._snackBar.open("Cadastrado com sucesso, efetue o login.", "fechar");
+            this.cadastroOuLogin = "Login";
+          } else {
+            console.log(res.errors)
+            // Exibição da mensagem de erro em um snackbar
+            this._snackBar.open("Erro no cadastro. Verifique os dados e tente novamente.", "fechar");
           }
         },
         (error) => {
           // Lógica de tratamento de erro no cadastro
-          error = error.error;
-          if (error.error) {
-            // Exibição da mensagem de erro em um snackbar
-            this._snackBar.open(error.error, "fechar");
+          console.error("Erro no cadastro:", error);
+      
+          let errorMessage = error.error.error;
+          if(errorMessage == null){
+            errorMessage = "Erro no cadastro. Verifique os dados e tente novamente.";
           }
+      
+          if (error && error.errors && error.errors.Nome) {
+            errorMessage = error.errors.Nome;
+          }
+      
+          // Exibição da mensagem de erro em um snackbar
+          this._snackBar.open(errorMessage, "fechar");
         }
       );
     }
@@ -126,6 +141,18 @@ export class LoginComponent {
     if (Username == null || Username == "" || Senha == null || Senha == "" || Nome == null || Nome == "") {
       // Exibição de uma mensagem de erro se os campos estiverem vazios
       this._snackBar.open("Os campos não podem ficar vazios", "fechar");
+      return false;
+    }
+    if(Nome.length <= 3){
+      this._snackBar.open("O campo Nome precisa ter mais de 3 caracteres", "fechar");
+      return false;
+    }
+    if(Username.length <= 3){
+      this._snackBar.open("O campo Username precisa ter mais de 3 caracteres", "fechar");
+      return false;
+    }
+    if(Senha.length <= 3){
+      this._snackBar.open("O campo Senha precisa ter mais de 3 caracteres", "fechar");
       return false;
     }
     return true;

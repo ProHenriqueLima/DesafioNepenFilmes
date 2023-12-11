@@ -1,6 +1,7 @@
 ﻿using FilmeNepenApi.Data;
 using FilmeNepenApi.Models;
 using FilmeNepenApi.Repositories;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.EntityFrameworkCore;
 
 namespace FilmeNepenApi.Services
@@ -14,7 +15,7 @@ namespace FilmeNepenApi.Services
             _repo = repository;
             _contexto = context;
         }
-        public Filme[] ListarFilmes(string? pesquisa)
+        public Filme[] ListarFilmes(string? pesquisa,string user)
         {
             Filme[] filmes;
             filmes = _repo.GetAllFilmes();
@@ -23,7 +24,7 @@ namespace FilmeNepenApi.Services
                 filmes = filmes.Where(objeto => objeto.Nome.Contains(pesquisa) || objeto.Descricao.Contains(pesquisa) || objeto.AnoLancamento.ToString().Contains(pesquisa)).ToArray();
             }
             
-            return filmes;
+            return filmes.Where(objeto => objeto.UsernameCriador == user).ToArray();
         }
 
         public Filme AdicionarFilmes(Filme? filme)
@@ -34,10 +35,10 @@ namespace FilmeNepenApi.Services
             return filme;
         }
 
-        public bool FilmeExistente(string nome)
+        public bool FilmeExistente(string nome,string user)
         {
             var filmes = _repo.GetAllFilmes();
-            filmes = filmes.Where(objeto => objeto.Nome == nome).ToArray();
+            filmes = filmes.Where(objeto => objeto.Nome == nome && objeto.UsernameCriador == user).ToArray();
             if (filmes.Count() > 0)
             {
                 return true;
@@ -63,12 +64,9 @@ namespace FilmeNepenApi.Services
             {
 
                 filme = _contexto.Filmes.Find(id);
-                filme.Id = id;
-                filme.Nome = filmeEditado.Nome;
-                filme.Descricao = filmeEditado.Descricao;
-                filme.AnoLancamento = filmeEditado.AnoLancamento;
-                filme.Banner = filmeEditado.Banner;
-                _contexto.SaveChangesAsync();
+                _contexto.Entry(filme).CurrentValues.SetValues(filmeEditado);
+                _repo.Update(filme);
+                _repo.SaveChanges();
             }
             catch (Exception ex)
             {

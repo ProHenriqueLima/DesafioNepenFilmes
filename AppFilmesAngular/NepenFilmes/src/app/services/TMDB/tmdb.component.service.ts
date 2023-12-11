@@ -23,4 +23,20 @@ export class TmdbService {
             return this.http.get(url);
         }
     }
+
+    urlToBase64(url:any, callback:any) {
+        // Use o fetch para obter a imagem a partir da URL
+        fetch(url)
+            .then(response => response.arrayBuffer())
+            .then(buffer => {
+                // Converte o ArrayBuffer para uma string base64
+                const base64String = btoa(new Uint8Array(buffer).reduce((data, byte) => data + String.fromCharCode(byte), ''));
+                // Chame o callback com a string base64
+                callback(base64String);
+            })
+            .catch(error => console.error('Erro ao converter a imagem para base64:', error));
+    }
+    
+    
+    
 }

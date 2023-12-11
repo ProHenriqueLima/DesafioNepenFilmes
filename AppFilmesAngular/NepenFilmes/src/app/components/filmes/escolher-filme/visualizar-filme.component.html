@@ -1,0 +1,32 @@
+<div *ngIf="acaoAdicionarEscolher == 'escolher'">
+    <button mat-button style="color: black; margin-top: 10px;margin-left: 10px;" (click)="this.voltarHome()"> -> Voltar para a tela incial</button>
+    <div *ngIf="Tipo == 'IMDB'">
+        <div class="filme-list">
+            <img class="imagem" src="https://image.tmdb.org/t/p/w500/{{Filme.poster_path}}" alt="texto"/>
+            <div>
+                <h1 style="font-size: 42px;"><b>{{Filme.title}}</b></h1>
+                <h1 style="font-size: 12.5px; max-width: 300px;color: rgb(77, 77, 77);">{{Filme.overview}}</h1>
+                <h1 style="font-size: 14.5px; max-width: 300px;color: rgb(0, 0, 0);"><b>Data de lançamento: </b>{{Filme.release_date}}</h1>
+                <h1 style="font-size: 14.5px; max-width: 300px;color: rgb(0, 0, 0);"><b>Popularidade: </b>{{Filme.popularity}}</h1>
+                <h1 style="font-size: 14.5px; max-width: 300px;color: rgb(0, 0, 0);"><b>Nota(IMDB): </b>{{Filme.vote_average}} ({{Filme.vote_count}} votos)</h1>
+            </div>
+        </div>
+        
+    </div>
+    <button mat-button style="color: white; margin-top: 10px;margin-left: 80%;background-color: blue;" (click)="this.acaoAdicionarEscolher = 'adicionar'"> Registrar Filme na Biblioteca</button>
+    
+    <div *ngIf="Tipo == 'Normal'">
+        <div class="filme-list">
+            <img class="imagem" src="{{Filme.banner}}" alt="texto"/>
+            <div>
+                <h1 style="font-size: 42px;"><b>{{Filme.nome}}</b></h1>
+                <h1 style="font-size: 12.5px; max-width: 300px;color: rgb(77, 77, 77);">{{Filme.descricao}}</h1>
+                <h1 style="font-size: 14.5px; max-width: 300px;color: rgb(0, 0, 0);"><b>Ano de lançamento: </b>{{Filme.anoLancamento}}</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="acaoAdicionarEscolher == 'adicionar'">
+    <app-meus-filmes [filmeSelecionado]="Filme"></app-meus-filmes>
+</div>
+

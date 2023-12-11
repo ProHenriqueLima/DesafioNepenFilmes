@@ -16,6 +16,7 @@ import { LoginService } from './app.component.service';
 
 @Component({
   selector: 'app-root',
+  standalone:true,
   imports: [CommonModule,MatGridListModule,MatDialogContent, RouterOutlet,HttpClientModule,MatButtonModule,MatToolbarModule, MatIconModule,LoginComponent, HttpClientModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',

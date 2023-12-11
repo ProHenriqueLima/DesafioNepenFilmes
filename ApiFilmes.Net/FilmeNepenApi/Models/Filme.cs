@@ -9,13 +9,16 @@ namespace FilmeNepenApi.Models
         {
             
         }
-        public Filme(int id, string nome, string descricao, string banner, int anoLancamento)
+
+        public Filme(int id, string nome, string descricao, string banner, string anoLancamento, string comentario, string usernameCriador)
         {
             Id = id;
             Nome = nome;
             Descricao = descricao;
             Banner = banner;
             AnoLancamento = anoLancamento;
+            Comentario = comentario;
+            UsernameCriador = usernameCriador;
         }
 
         [Key]
@@ -24,6 +27,8 @@ namespace FilmeNepenApi.Models
         public string Nome { get; set; }
         public string Descricao { get; set; }
         public string Banner { get; set; }
-        public int AnoLancamento { get; set; }
+        public string AnoLancamento { get; set; }
+        public string Comentario { get; set; }
+        public string UsernameCriador { get; set; }
     }
 }

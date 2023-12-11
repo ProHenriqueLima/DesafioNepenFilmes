@@ -6,18 +6,32 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FilmeNepenApi.Controllers.Login
 {
+    /// <summary>
+    /// Controller responsável pelas operações relacionadas aos usuários.
+    /// </summary>
     [ApiController]
     [Route("[controller]")]
     public class UsuarioController : ControllerBase
     {
         private readonly DataContext _context;
         private readonly IAuthService _authService;
+
+        /// <summary>
+        /// Construtor da classe UsuarioController.
+        /// </summary>
+        /// <param name="context">Contexto do banco de dados.</param>
+        /// <param name="authService">Serviço de autenticação.</param>
         public UsuarioController(DataContext context, IAuthService authService)
         {
             _context = context;
             _authService = authService;
         }
 
+        /// <summary>
+        /// Realiza a autenticação do usuário.
+        /// </summary>
+        /// <param name="admin">Objeto contendo as credenciais do usuário.</param>
+        /// <returns>Informações do usuário e token de autenticação.</returns>
         [HttpPost]
         [Route("login")]
         [AllowAnonymous]
@@ -43,6 +57,11 @@ namespace FilmeNepenApi.Controllers.Login
 
         }
 
+        /// <summary>
+        /// Cadastra um novo usuário.
+        /// </summary>
+        /// <param name="admin">Objeto contendo as informações do usuário a ser cadastrado.</param>
+        /// <returns>Mensagem de sucesso ou erro.</returns>
         [HttpPost]
         [Route("cadastrarUsuario")]
         [AllowAnonymous]
@@ -57,6 +76,12 @@ namespace FilmeNepenApi.Controllers.Login
 
         }
 
+        /// <summary>
+        /// Edita um usuário com o papel de administrador.
+        /// </summary>
+        /// <param name="id">Identificador do usuário a ser editado.</param>
+        /// <param name="adminEditado">Objeto contendo as informações do usuário editado.</param>
+        /// <returns>Mensagem de sucesso ou erro.</returns>
         [HttpPut]
         [Route("admin/editarUsuario")]
         [Authorize(Roles = "admin")]
@@ -73,6 +98,12 @@ namespace FilmeNepenApi.Controllers.Login
             return (new { message = "Usuário editado com sucesso !" });
         }
 
+        /// <summary>
+        /// Edita um usuário.
+        /// </summary>
+        /// <param name="id">Identificador do usuário a ser editado.</param>
+        /// <param name="adminEditado">Objeto contendo as informações do usuário editado.</param>
+        /// <returns>Mensagem de sucesso ou erro.</returns>
         [HttpPut]
         [Route("editarUsuario")]
         [Authorize]
@@ -88,6 +119,12 @@ namespace FilmeNepenApi.Controllers.Login
 
             return (new { message = "Usuário editado com sucesso !" });
         }
+
+        /// <summary>
+        /// Deleta um usuário com o papel de administrador.
+        /// </summary>
+        /// <param name="id">Identificador do usuário a ser deletado.</param>
+        /// <returns>Mensagem de sucesso ou erro.</returns>
         [HttpDelete]
         [Route("admin/deletarUsuario")]
         [Authorize(Roles = "admin")]
@@ -103,6 +140,10 @@ namespace FilmeNepenApi.Controllers.Login
             return (new { message = "Usuário deletado com sucesso !" });
         }
 
+        /// <summary>
+        /// Verifica se o usuário está autenticado.
+        /// </summary>
+        /// <returns>Mensagem indicando que o usuário está autenticado.</returns>
         [HttpGet]
         [Route("autenticado")]
         [Authorize]

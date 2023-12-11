@@ -1,0 +1,27 @@
+<h2 style="margin-left:40px;margin-top: 10px;color:rgb(0, 0, 0);font-size: 27px;"><b>Adicionar Filme na biblioteca</b></h2>
+
+<div style="margin-top:30px">
+    <div class="filme-list">
+        <img class="imagem" src="https://image.tmdb.org/t/p/w500/{{filmeSelecionado.poster_path}}" alt="texto"/>
+        <div>
+            <mat-form-field appearance="fill" style="width: 60%;">
+                <mat-label>Nome do filme</mat-label>
+                <input matInput [(ngModel)]="this.NomeDoFilme" placeholder="Ex. Batman">
+            </mat-form-field>
+            <mat-form-field appearance="fill" style="width: 60%;">
+                <mat-label>Descrição</mat-label>
+                <input matInput [(ngModel)]="this.Descricao" placeholder="Ex. Batman">
+            </mat-form-field>
+            <mat-form-field appearance="fill" style="width: 60%;height: 200px;">
+                <mat-label>Comentários e Opiniões</mat-label>
+                <input matInput [(ngModel)]="this.Comentarios" placeholder="Ex. Gostei muito desse filme">
+            </mat-form-field>
+            <br>
+            <button mat-button style="color: white; position: fixed;background-color: blue;width: 25%;margin-left: 20px;" (click)="adicionarFilme()" >Registrar Filme</button>
+            
+        </div>
+        
+    </div>
+   
+        
+</div>

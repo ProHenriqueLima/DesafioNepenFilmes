@@ -39,9 +39,10 @@
 
         </div>
     </div>
+    <img src="data:image/png;base64,{{imagem64}}" alt="texto"/>
     
     <!-- Mensagem para biblioteca vazia -->
-    <div class="bibliotecaVazia" *ngIf="Filmes.length == 0">
+    <div class="bibliotecaVazia" *ngIf="Filmes?.length == 0">
         <button mat-button >Nenhum<br/>Filme<br/>Encontrado</button>
     </div>
 </div>

@@ -1,0 +1,10 @@
+.filme-list {
+    display: flex;
+    flex-wrap: wrap;
+
+}
+.imagem {
+    margin-right: 30px;
+    margin-left: 40px;
+    max-width: 300px; /* Defina a largura máxima desejada */
+}

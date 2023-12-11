@@ -8,28 +8,28 @@
 <!-- Seção para visualizar a biblioteca de filmes -->
 <div *ngIf="!VisualizarFilme">
     <!-- Título da biblioteca -->
-    <h2 style="margin-left:50px;margin-top: 40px;color:rgb(252, 59, 59);font-family: Verdana;">Sua biblioteca</h2>
+    <h2 style="margin-left:50px;margin-top: 40px;color:rgb(252, 59, 59);font-family: Verdana;">Sua biblioteca - <a mat-button style="color: blue;" href="MeusFilmes"> Ver mais</a></h2>
 
     <!-- Lista de filmes da biblioteca -->
-    <div class="filme-list">
+    <div class="filme-list2" *ngIf="MinhaBibliotecaDeFilme.length > 0">
         <!-- Item da biblioteca de filmes -->
-        <div class="filme-list" *ngFor="let item of MinhaBibliotecaDeFilme;let i = index" (click)="visualizarFilme(item,'biblioteca')">
-            <div class="filme-item" *ngIf="i < 5">
+        <div class="filme-list2" *ngFor="let item of MinhaBibliotecaDeFilme;let i = index">
+            <div class="filme-item2" *ngIf="i < 5">
                 <!-- Imagem do filme -->
-                <img *ngIf="i < 5"src="https://image.tmdb.org/t/p/w500/{{item.poster_path}}" alt="texto"/>
+                <img *ngIf="i < 5"src="https://image.tmdb.org/t/p/w500{{item.banner}}" alt="texto"/>
                 <!-- Título do filme -->
-                <h4 *ngIf="i < 5" style="color: white;">{{item.title}}</h4>
+                <h4 *ngIf="i < 5" style="color: white;">{{item.nome}}</h4>
             </div>
         </div>
     </div>
 
     <!-- Mensagem para biblioteca vazia -->
-    <div class="bibliotecaVazia">
-        <button mat-button >Adicionar<br/>mais<br/>Filmes</button>
+    <div class="bibliotecaVazia" *ngIf="MinhaBibliotecaDeFilme.length == 0">
+        <a mat-button href="/FilmesIMDB">Adicionar<br/>mais<br/>Filmes</a>
     </div>
 
     <!-- Título para os 5 filmes mais votados da web (IMDB) -->
-    <h2 style="margin-left:50px;margin-top: 40px;color:rgb(252, 59, 59);font-family: Verdana;">Os 5 Filmes mais votados da web (IMDB)</h2>
+    <h2 style="margin-left:50px;margin-top: 40px;color:rgb(252, 59, 59);font-family: Verdana;">Os 5 Filmes mais votados da web (IMDB) - <a mat-button style="color: blue;" href="FilmesIMDB"> Ver mais</a></h2>
     <span class="spacer"></span>
   
     <!-- Lista dos 5 filmes mais rentáveis -->

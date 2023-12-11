@@ -15,10 +15,12 @@ namespace FilmeNepenApi.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Nome = table.Column<string>(type: "text", nullable: true),
-                    Descricao = table.Column<string>(type: "text", nullable: true),
-                    Banner = table.Column<string>(type: "text", nullable: true),
-                    AnoLancamento = table.Column<int>(type: "integer", nullable: true)
+                    Nome = table.Column<string>(type: "text", nullable: false),
+                    Descricao = table.Column<string>(type: "text", nullable: false),
+                    Banner = table.Column<string>(type: "text", nullable: false),
+                    AnoLancamento = table.Column<string>(type: "text", nullable: false),
+                    Comentario = table.Column<string>(type: "text", nullable: false),
+                    UsernameCriador = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -41,6 +43,11 @@ namespace FilmeNepenApi.Migrations
                 {
                     table.PrimaryKey("PK_Usuarios", x => x.Id);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Usuarios",
+                columns: new[] { "Id", "Ativo", "Cargo", "Nome", "Password", "Username" },
+                values: new object[] { 1, 1, "admin", "Admin", "cbfdac6008f9cab4083784cbd1874f76618d2a97d30d8f00c39c6729e8f6d56d", "admin" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

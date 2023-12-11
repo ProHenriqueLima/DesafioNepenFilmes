@@ -1,0 +1,28 @@
+
+
+<!-- Se não estiver visualizando um filme -->
+<!-- Lista de Filmes (IMDB) -->
+<div *ngIf="visualizar == false">
+    <!-- Título da seção -->
+    <h2 style="margin-left:20px;margin-top: 10px;color:rgb(0, 0, 0);font-family: Verdana;"><b>Meus Filmes - </b><a mat-button style="color: blue;" href="FilmesIMDB"> Adicionar Filme</a></h2>
+    <!-- Lista de filmes -->
+    <div class="filme-list">
+        <!-- Iteração sobre a lista de filmes -->
+        <div class="filme-item" *ngFor="let item of Filmes; let i = index" (click)="filmeSelecionado = item;visualizar = true">
+            <!-- Poster do filme -->
+            <img src="https://image.tmdb.org/t/p/w500/{{item.banner}}" alt="texto"/>
+            <!-- Título do filme -->
+            <h4 style="color: white;">{{item.nome}}</h4>
+
+        </div>
+    </div>
+    
+    <!-- Mensagem para biblioteca vazia -->
+    <div class="bibliotecaVazia" *ngIf="Filmes?.length == 0">
+        <button mat-button >Nenhum<br/>Filme<br/>Encontrado</button>
+    </div>
+</div>
+
+<div *ngIf="visualizar == true">   
+    <app-filmes-biblioteca-visualizar [Filme]="filmeSelecionado" [visualizar]="visualizar"></app-filmes-biblioteca-visualizar>
+</div>
