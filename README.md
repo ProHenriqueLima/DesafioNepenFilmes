@@ -13,6 +13,14 @@ Link do desafio : https://gitlab.nepen.org.br/Challenges/desafio-fullstack
 - PostgreSql (Sql) - indicado no desafio
 - O Uso da Api IMDB (Api de Filmes)
 
+## Arquitetura 
+
+- No começo pensei em criar o projeto em Clean Architeture,
+  entretanto vi que a api era muito simples e pequena para 
+  ser utilizada com uma Arquitetura de projetos "grandes".
+- Fiz uma divisão de forma organizada, que não atrapalhou
+  no processo de execução.
+
 ## Funcionalidades
 
 - Adicionar filmes da Api IMDB para a sua biblioteca com comentários dinâmicos.
@@ -22,7 +30,7 @@ Link do desafio : https://gitlab.nepen.org.br/Challenges/desafio-fullstack
 
 ## Autores
 
-- [@ProHenriqueLima](https://www.github.com/octokatherine)
+- [@ProHenriqueLima](https://www.github.com/ProHenriqueLima)
 
 
 ## Como executar 

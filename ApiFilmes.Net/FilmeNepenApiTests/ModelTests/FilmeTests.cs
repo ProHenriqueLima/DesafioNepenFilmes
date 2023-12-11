@@ -1,56 +1,63 @@
-﻿using System;
-using FilmeNepenApi.Models;
-using FilmeNepenApi.Models.Validators;
-using FluentValidation.TestHelper;
+﻿using FilmeNepenApi.Models;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Xunit;
 
-namespace FilmeNepenApiTests.ModelTests
+namespace FilmeNepenApi.Tests
 {
-    public class FilmeValidatorTests
+    public class FilmeTests
     {
         [Fact]
-        public void FilmeValidator_DevePassarQuandoPropriedadesSaoValidas()
+        public void Filme_DeveTerAtributoId()
         {
             // Arrange
-            var filme = new Filme
-            {
-                Nome = "Filme Teste",
-                Descricao = "Descrição do Filme",
-                AnoLancamento = 2000
-            };
-
-            var validator = new FilmeValidator();
+            var filme = new Filme();
 
             // Act
-            var result = validator.Validate(filme);
+            var idProperty = filme.GetType().GetProperty("Id");
 
             // Assert
-            Assert.True(result.IsValid);
+            Assert.NotNull(idProperty);
+            Assert.True(idProperty.GetCustomAttributes(typeof(KeyAttribute), false).Length > 0);
+            Assert.True(idProperty.GetCustomAttributes(typeof(DatabaseGeneratedAttribute), false).Length > 0);
         }
 
         [Theory]
-        [InlineData("", "Descrição do Filme", 2000)] // Nome vazio
-        [InlineData("Filme Teste", "", 2000)]         // Descrição vazia
-        [InlineData("Filme Teste", "Descrição do Filme", 2025)]  // AnoLancamento maior que 2024
-        [InlineData("Filme Teste", "Descrição do Filme", 1890)]  // AnoLancamento menor que 1895
-        public void FilmeValidator_DeveFalharQuandoPropriedadesSaoInvalidas(string nome, string descricao, int anoLancamento)
+        [InlineData(1, "Nome", "Descricao", "Banner", "Ano", "Comentario", "Usuario")]
+        public void Filme_DeveInicializarCorretamente(int id, string nome, string descricao, string banner, string anoLancamento, string comentario, string usernameCriador)
         {
-            // Arrange
-            var filme = new Filme
-            {
-                Nome = nome,
-                Descricao = descricao,
-                AnoLancamento = anoLancamento
-            };
-
-            var validator = new FilmeValidator();
-
-            // Act
-            var result = validator.Validate(filme);
+            // Arrange & Act
+            var filme = new Filme(id, nome, descricao, banner, anoLancamento, comentario, usernameCriador);
 
             // Assert
-            Assert.False(result.IsValid);
-            Assert.NotEmpty(result.Errors);
+            Assert.Equal(id, filme.Id);
+            Assert.Equal(nome, filme.Nome);
+            Assert.Equal(descricao, filme.Descricao);
+            Assert.Equal(banner, filme.Banner);
+            Assert.Equal(anoLancamento, filme.AnoLancamento);
+            Assert.Equal(comentario, filme.Comentario);
+            Assert.Equal(usernameCriador, filme.UsernameCriador);
         }
+
+        [Theory]
+        [InlineData(null, "Descricao", "Banner", "Ano", "Comentario", "Usuario")]
+        [InlineData("", "Descricao", "Banner", "Ano", "Comentario", "Usuario")]
+        public void Filme_DeveFalharValidacaoSemNome(string nome, string descricao, string banner, string anoLancamento, string comentario, string usernameCriador)
+        {
+            // Arrange
+            var filme = new Filme(1, nome, descricao, banner, anoLancamento, comentario, usernameCriador);
+            var context = new ValidationContext(filme, null, null);
+            var results = new System.Collections.Generic.List<ValidationResult>();
+
+            // Act
+            var isValid = Validator.TryValidateObject(filme, context, results, true);
+
+            // Assert
+            Assert.False(isValid);
+            Assert.Single(results);
+            Assert.Equal("O campo Nome é obrigatório.", results[0].ErrorMessage);
+        }
+
+        // Adicione mais testes para validar outras propriedades conforme necessário
     }
 }

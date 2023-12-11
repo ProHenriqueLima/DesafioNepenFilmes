@@ -1,4 +1,6 @@
-﻿using FilmeNepenApi.Data;
+﻿using System;
+using System.Linq;
+using FilmeNepenApi.Data;
 using FilmeNepenApi.Models;
 using FilmeNepenApi.Repositories;
 using FilmeNepenApi.Services;
@@ -6,81 +8,55 @@ using Microsoft.EntityFrameworkCore;
 using Moq;
 using Xunit;
 
-namespace FilmeNepenApiTests.ServiceTests
+namespace FilmeNepenApi.Tests
 {
     public class FilmeServiceTests
     {
         [Fact]
-        public void ListarFilmes_DeveRetornarFilmesCorretosComPesquisa()
+        public void ListarFilmes_DeveRetornarFilmesDoUsuario()
         {
             // Arrange
-            var dbContextOptions = new DbContextOptions<DataContext>();
-            var dbContext = new Mock<DataContext>(dbContextOptions);
-            var repository = new Mock<IRepository>();
-            var filmeService = new FilmeService(repository.Object, dbContext.Object);
-
-            var filmes = new Filme[]
+            var filmes = new[]
             {
-            new Filme { Id = 1, Nome = "Filme A", Descricao = "Descrição A", AnoLancamento = 2020 },
-            new Filme { Id = 2, Nome = "Filme B", Descricao = "Descrição B", AnoLancamento = 2021 },
+                new Filme { Id = 1, Nome = "Filme1", UsernameCriador = "user1" },
+                new Filme { Id = 2, Nome = "Filme2", UsernameCriador = "user2" },
+                new Filme { Id = 3, Nome = "Filme3", UsernameCriador = "user1" },
             };
-            repository.Setup(r => r.GetAllFilmes()).Returns(filmes);
+
+            var repositoryMock = new Mock<IRepository>();
+            repositoryMock.Setup(repo => repo.GetAllFilmes()).Returns(filmes);
+
+            var contextMock = new Mock<DataContext>();
+
+            var filmeService = new FilmeService(repositoryMock.Object, contextMock.Object);
 
             // Act
-            var resultado1 = filmeService.ListarFilmes(null); // Sem pesquisa
-            var resultado2 = filmeService.ListarFilmes(""); // Pesquisa vazia
-            var resultado3 = filmeService.ListarFilmes("A"); // Pesquisa válida
+            var result = filmeService.ListarFilmes(null, "user1");
 
             // Assert
-            Assert.Equal(filmes, resultado1);
-            Assert.Equal(filmes, resultado2);
-            Assert.Equal(new Filme[] { filmes[0] }, resultado3);
+            Assert.Equal(2, result.Length);
+            Assert.True(result.All(f => f.UsernameCriador == "user1"));
         }
 
         [Fact]
-        public void AdicionarFilmes_DeveAdicionarFilmeCorretamente()
-        {
-            // Arrange
-            var dbContextOptions = new DbContextOptions<DataContext>();
-            var dbContext = new Mock<DataContext>(dbContextOptions);
-            var repository = new Mock<IRepository>();
-            var filmeService = new FilmeService(repository.Object, dbContext.Object);
+        public void AdicionarFilme_DeveAdicionarFilme() { 
+        
+                var filme = new Filme { Nome = "NovoFilme", UsernameCriador = "user1" };
+                // Arrange
+                var dbContextOptions = new DbContextOptions<DataContext>();
+                var dbContext = new Mock<DataContext>(dbContextOptions);
+                var repository = new Mock<IRepository>();
+                var filmeService = new FilmeService(repository.Object, dbContext.Object);
 
-            var novoFilme = new Filme { Id = 3, Nome = "Novo Filme", Descricao = "Nova Descrição", AnoLancamento = 2022 };
+                // Act
+                var result = filmeService.AdicionarFilmes(filme);
 
-            // Act
-            var resultado = filmeService.AdicionarFilmes(novoFilme);
-
-            // Assert
-            repository.Verify(r => r.Add(novoFilme), Times.Once);
-            repository.Verify(r => r.SaveChanges(), Times.Once);
-            Assert.Equal(novoFilme, resultado);
+                // Assert
+                repository.Verify(repo => repo.Add(filme), Times.Once);
+                repository.Verify(repo => repo.SaveChanges(), Times.Once);
+                Assert.Equal(filme, result);
         }
 
-        [Fact]
-        public void FilmeExistente_DeveRetornarCorretamente()
-        {
-            // Arrange
-            var dbContextOptions = new DbContextOptions<DataContext>();
-            var dbContext = new Mock<DataContext>(dbContextOptions);
-            var repository = new Mock<IRepository>();
-            var filmeService = new FilmeService(repository.Object, dbContext.Object);
-
-            var filmes = new Filme[]
-            {
-            new Filme { Id = 1, Nome = "Filme A", Descricao = "Descrição A", AnoLancamento = 2020 },
-            new Filme { Id = 2, Nome = "Filme B", Descricao = "Descrição B", AnoLancamento = 2021 },
-            };
-            repository.Setup(r => r.GetAllFilmes()).Returns(filmes);
-
-            // Act
-            var resultado1 = filmeService.FilmeExistente("Filme A"); // Filme existente
-            var resultado2 = filmeService.FilmeExistente("Filme C"); // Filme inexistente
-
-            // Assert
-            Assert.True(resultado1);
-            Assert.False(resultado2);
-        }
-
+        // Adicione mais testes para os outros métodos conforme necessário
     }
 }
