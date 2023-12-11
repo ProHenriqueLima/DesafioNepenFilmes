@@ -1,24 +1,28 @@
+<!-- Barra de navegação principal -->
 <mat-toolbar color="primary" style="background-color: #000000;">
-  <span >NepenFilmes</span>
+  <!-- Título do aplicativo -->
+  <span>NepenFilmes</span>
+  <!-- Espaçador flexível -->
   <span class="spacer"></span>
-  <mat-icon  fontIcon="person" *ngIf="situacaoLogin == 'Logado'"></mat-icon>
-  <div *ngIf="situacaoLogin == 'Logado'" style="margin-right: 6px;font-size: medium;">{{this.nomeUsuario}} - </div>
-  <div *ngIf="situacaoLogin == 'Logado'" (click)="eftuarLogout()" style="cursor: pointer;color: rgb(250, 64, 64);font-size: medium;">Sair</div>
+  <!-- Ícone de usuário e nome do usuário (se logado) -->
+  <mat-icon fontIcon="person" *ngIf="situacaoLogin == 'Logado'"></mat-icon>
+  <div *ngIf="situacaoLogin == 'Logado'" style="margin-right: 6px; font-size: medium;">{{this.nomeUsuario}} - </div>
+  <!-- Botão de logout (se logado) -->
+  <div *ngIf="situacaoLogin == 'Logado'" (click)="eftuarLogout()" style="cursor: pointer; color: rgb(250, 64, 64); font-size: medium;">Sair</div>
 </mat-toolbar>
-<mat-toolbar *ngIf="situacaoLogin == 'Logado'"color="primary" style="background-color: #141414;">
-  <button mat-button >Meus filmes</button>
-  <button mat-button >Filmes(Web)</button>
-  <span class="spacer"></span>
-  <mat-icon  fontIcon="person" *ngIf="situacaoLogin == 'Logado'"></mat-icon>
- </mat-toolbar>
-<!-- <div style="background-color: #CBCBCB;color: white;">
-  <mat-grid-list cols="6" rowHeight="5:1" style="margin: 0px 120px 0px 120px;">
-    <mat-grid-tile><button mat-button>Login</button></mat-grid-tile>
-    <mat-grid-tile>Adicionar Filmes</mat-grid-tile>
-    <mat-grid-tile>3</mat-grid-tile>
-    <mat-grid-tile>4</mat-grid-tile>
-  </mat-grid-list>
-</div> -->
-<app-login *ngIf="situacaoLogin == 'Deslogado'" (inicializarApp)="this.ngOnInit()" ></app-login>
-<router-outlet *ngIf="situacaoLogin == 'Logado'"></router-outlet>
 
+<!-- Barra de navegação secundária (se logado) -->
+<mat-toolbar *ngIf="situacaoLogin == 'Logado'" color="primary" style="background-color: #141414;">
+  <!-- Links de navegação -->
+  <a mat-button href="/">Inicio</a>
+  <button mat-button>Meus filmes</button>
+  <a mat-button href="/FilmesIMDB">Filmes(Web)</a>
+  <!-- Espaçador flexível -->
+  <span class="spacer"></span>
+</mat-toolbar>
+
+<!-- Componente de login (se deslogado) -->
+<app-login *ngIf="situacaoLogin == 'Deslogado'" (inicializarApp)="this.ngOnInit()"></app-login>
+
+<!-- Roteamento de saída (se logado) -->
+<router-outlet *ngIf="situacaoLogin == 'Logado'"></router-outlet>

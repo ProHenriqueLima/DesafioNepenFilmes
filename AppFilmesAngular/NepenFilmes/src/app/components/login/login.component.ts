@@ -12,7 +12,6 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
-  standalone: true,
   imports: [CommonModule,MatCardModule,MatButtonModule,MatFormFieldModule,MatInputModule,MatIconModule,HttpClientModule,FormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
@@ -34,75 +33,101 @@ export class LoginComponent {
     
   }
 
-  efetuarLogin(){
-    if(this.verificarSenhaUsername(this.Username,this.Senha) == true){
+  // Método para efetuar o login do usuário
+  efetuarLogin() {
+    if (this.verificarSenhaUsername(this.Username, this.Senha)) {
+      // Construção do objeto de usuário
       var user = {
         id: 0,
         username: this.Username,
-        nome: "string",
+        nome: "padrao", 
         password: this.Senha,
         ativo: 1,
-        cargo: "string"
+        cargo: "padrao"
       };
-      this.loginService.efetuarLogin(user).subscribe((res) => {
-        if(res.token != null && res.token != ""){
-          localStorage.setItem("Token",res.token);
-          localStorage.setItem("UsuarioNome",res.adm.nome);
-          this.inicializarApp.emit();
-          this._snackBar.open("Conectado com sucesso", "fechar");
-          this.loginService.verificarLogin().subscribe((res:any)=> {console.log(res)});
+
+      // Chamada do serviço para efetuar o login
+      this.loginService.efetuarLogin(user).subscribe(
+        (res) => {
+          // Lógica de sucesso no login
+          if (res.token != null && res.token != "") {
+            // Armazenamento do token e nome do usuário no armazenamento local
+            localStorage.setItem("Token", res.token);
+            localStorage.setItem("UsuarioNome", res.adm.nome);
+            // Emissão do evento para inicializar o aplicativo
+            this.inicializarApp.emit();
+            // Exibição de uma notificação de sucesso
+            this._snackBar.open("Conectado com sucesso", "fechar");
+            // Verificação do login após o sucesso
+            this.loginService.verificarLogin().subscribe((res: any) => {
+              console.log(res);
+            });
+          }
+        },
+        (error) => {
+          // Lógica de tratamento de erro no login
+          error = error.error;
+          if (error.error) {
+            // Exibição da mensagem de erro em um snackbar
+            this._snackBar.open(error.error, "fechar");
+          }
         }
-      },
-      (error)=>{
-        error = error.error;
-        if(error.error){
-          this._snackBar.open(error.error, "fechar");
-        }
-      });
-    } 
+      );
+    }
   }
 
-  efetuarCadastro(){
-    if(this.verificarSenhaUsernameNome(this.Username,this.Senha,this.Nome) == true ){
+  // Método para efetuar o cadastro do usuário
+  efetuarCadastro() {
+    if (this.verificarSenhaUsernameNome(this.Username, this.Senha, this.Nome)) {
+      // Construção do objeto de usuário para cadastro
       var user = {
         id: 0,
         username: this.Username,
         nome: this.Nome,
         password: this.Senha,
         ativo: 1,
-        cargo: "usuario"
+        cargo: "usuario" // Está fixo como "usuario", talvez precise ser ajustado
       };
-      this.loginService.efetuarCadastro(user).subscribe((res) => {
-        console.log(res);
-        if(res.token != null && res.token != ""){
-          this._snackBar.open("Cadastrado com sucesso, efetue o login.", "fechar");
+
+      // Chamada do serviço para efetuar o cadastro
+      this.loginService.efetuarCadastro(user).subscribe(
+        (res) => {
+          // Lógica de sucesso no cadastro
+          console.log(res);
+          if (res.token != null && res.token != "") {
+            // Exibição de uma notificação de sucesso
+            this._snackBar.open("Cadastrado com sucesso, efetue o login.", "fechar");
+          }
+        },
+        (error) => {
+          // Lógica de tratamento de erro no cadastro
+          error = error.error;
+          if (error.error) {
+            // Exibição da mensagem de erro em um snackbar
+            this._snackBar.open(error.error, "fechar");
+          }
         }
-      },
-      (error)=>{
-        error = error.error;
-        if(error.error){
-          this._snackBar.open(error.error, "fechar");
-        }
-      });
-    } 
+      );
+    }
   }
 
-  verificarSenhaUsername(Username:string,Senha:string) : boolean{
-    if(Username == null || Username == "" || Senha == null || Senha == ""){
+  // Método para verificar se o nome de usuário e a senha são válidos
+  verificarSenhaUsername(Username: string, Senha: string): boolean {
+    if (Username == null || Username == "" || Senha == null || Senha == "") {
+      // Exibição de uma mensagem de erro se os campos estiverem vazios
       this._snackBar.open("Os campos não podem ficar vazios", "fechar");
       return false;
     }
     return true;
-
   }
-  
-  verificarSenhaUsernameNome(Username:string,Senha:string,Nome:string) : boolean{
-    if(Username == null || Username == "" || Senha == null || Senha == "" || Nome == null || Nome == ""){
+
+  // Método para verificar se o nome de usuário, a senha e o nome são válidos
+  verificarSenhaUsernameNome(Username: string, Senha: string, Nome: string): boolean {
+    if (Username == null || Username == "" || Senha == null || Senha == "" || Nome == null || Nome == "") {
+      // Exibição de uma mensagem de erro se os campos estiverem vazios
       this._snackBar.open("Os campos não podem ficar vazios", "fechar");
       return false;
     }
     return true;
-
   }
-
 }

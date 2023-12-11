@@ -3,12 +3,11 @@ import { TmdbService } from '../../services/TMDB/tmdb.component.service';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { VisualizarFilmeComponent } from './visualizar-filme/visualizar-filme.component';
 import { MatIconModule } from '@angular/material/icon';
+import { VisualizarFilmeComponent } from './visualizar-filme/visualizar-filme.component';
 
 @Component({
   selector: 'app-filmes',
-  standalone: true,
   imports: [MatGridListModule,MatIconModule,CommonModule,MatButtonModule,VisualizarFilmeComponent],
   templateUrl: './filmes.component.html',
   styleUrl: './filmes.component.css',

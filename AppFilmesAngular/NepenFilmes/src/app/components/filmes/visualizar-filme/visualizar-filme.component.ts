@@ -4,7 +4,6 @@ import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-visualizar-filme',
-  standalone: true,
   imports: [MatButtonModule,CommonModule],
   templateUrl: './visualizar-filme.component.html',
   styleUrl: './visualizar-filme.component.css'

@@ -1,0 +1,42 @@
+.filme-list {
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    /* Opcional: ajusta o espaçamento entre as imagens */
+}
+.filme-item img {
+    margin-left: 10px;
+    margin-top:5px;
+    width: 90%;
+  
+}
+.filme-item h4 {
+    text-align: center;
+}
+.filme-item {
+    background-color: rgb(37, 37, 37);
+        
+    margin-top:30px;
+    margin-right:1px;
+    max-width: 200px; /* Defina a largura máxima desejada */
+    width: 100%;
+}
+
+.bibliotecaVazia{
+    margin-top: 10px;
+    margin-left: 50px;
+    width: 200px;
+    background-color: rgb(37, 37, 37);
+    height: 345px;
+}
+.bibliotecaVazia button{
+    color: rgb(252, 59, 59);
+    margin: 140px 54px;
+}
+.bibliotecaVazia button:hover{
+    color: rgb(255, 0, 0);
+    margin: 140px 54px;
+}

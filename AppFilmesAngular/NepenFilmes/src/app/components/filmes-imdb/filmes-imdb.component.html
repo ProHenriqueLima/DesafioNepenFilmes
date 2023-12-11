@@ -1,1 +1,47 @@
-<p>filmes-imdb works!</p>
+<!-- Se estiver visualizando um filme -->
+<div *ngIf="VisualizarFilme">
+    <!-- Componente personalizado para visualizar um filme -->
+    <app-visualizar-filme (visualizarUnico)="voltarHome()" [Filme]="FilmeSelecionado" [Tipo]="TipoFilmeSelecionado"></app-visualizar-filme>
+</div>
+
+<!-- Se não estiver visualizando um filme -->
+<!-- Lista de Filmes (IMDB) -->
+<div *ngIf="!VisualizarFilme">
+    <!-- Título da seção -->
+    <h2 style="margin-left:20px;margin-top: 10px;color:rgb(0, 0, 0);font-family: Verdana;"><b>Lista de Filmes (IMDB)</b></h2>
+    
+    <!-- Campo de pesquisa -->
+    <mat-form-field appearance="fill" style="width: 20%;margin-left:20px">
+        <mat-label>Pesquisa</mat-label>
+        <input matInput [(ngModel)]="this.pesquisa" placeholder="Placeholder">
+    </mat-form-field>
+    
+    <!-- Botão de busca -->
+    <button mat-button (click)="pesquisarFilmes()">Buscar</button>
+    
+    <!-- Lista de filmes -->
+    <div class="filme-list">
+        <!-- Iteração sobre a lista de filmes -->
+        <div class="filme-item" *ngFor="let item of Filmes; let i = index" (click)="visualizarFilme(item,'IMDB')">
+            <!-- Classificação do filme -->
+            <div style="margin-top: 3px;">
+                <span class="spacer"></span>
+                <span style="display: flex; font-size: 18px; color: white; margin-right: 5px;">
+                    <span class="spacer"></span>
+                    <mat-icon matSuffix style="color: rgb(231, 231, 0); font-size: 18px;">star</mat-icon>
+                    {{item.vote_average.toFixed(1)}}
+                </span>
+            </div>
+            <!-- Poster do filme -->
+            <img src="https://image.tmdb.org/t/p/w500/{{item.poster_path}}" alt="texto"/>
+            <!-- Título do filme -->
+            <h4 style="color: white;">{{item.title}}</h4>
+
+        </div>
+    </div>
+    
+    <!-- Mensagem para biblioteca vazia -->
+    <div class="bibliotecaVazia" *ngIf="Filmes.length == 0">
+        <button mat-button >Nenhum<br/>Filme<br/>Encontrado</button>
+    </div>
+</div>
