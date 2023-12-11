@@ -27,6 +27,10 @@ Link do desafio : https://gitlab.nepen.org.br/Challenges/desafio-fullstack
 - Edição de dados (Possibilidade de modificar nome, descrição e comentários do Filme)
 - Login (Token/Autenticação e Autorização)
 
+## O Que não deu tempo fazer ?
+
+- Tela de admin com todas as requisições feitas no projeto(log/auditoria).
+
 
 ## Autores
 
